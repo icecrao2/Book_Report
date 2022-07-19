@@ -1,0 +1,10 @@
+.header{
+  display:flex; 
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.header__href{
+  margin-right:10px;
+  color:white;
+}
