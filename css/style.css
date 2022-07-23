@@ -1,9 +1,13 @@
 @import "./reset.css";
 @import "./components/header.css";
+@import "./components/main.css";
+@import "./components/article-section.css";
+@import "./screens/login.css";
+@import "./screens/sign-up.css";
+
 
 html, body {
   height: 100%;
   width: 100%;
   background-image:url("../img/BG.jpg");
 }
-

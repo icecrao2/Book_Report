@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0">
-  <title>독후감</title>
+  <title>로그인 - 독후감</title>
   <link href="./img/open-book.png" rel="shortcut icon" type="image/x-icon">
   <link href="./css/style.css" rel="stylesheet" type="text/css" />
 </head>
@@ -14,25 +14,25 @@
 
   <header class="header">
     <div class="header__login-container">
-      <a href="sign-up.html" class="header__href">Sign up</a>
-      <a href="sign-in.html" class="header__href">Sign in</a>
+      <a href="sign-up.html" class="header__href" >Sign up</a>
+      <a href="index.html" class="header__href">main</a>
     </div>
   </header>
 
   <main class="main">
-    <form class="main__serach-form">
-      <input class="main__screen-form__input" type="text" placeholder="Enter The Title" />
+    <form class="main__serach-form main__serach-form--login">
+      <input class="main__screen-form__input main__screen-form__input--id" type="text" placeholder="Enter ID" />
+      <input class="main__screen-form__input main__screen-form__input--password" type="password" placeholder="Enter Password" />
+      <button class="main__screen_form__button--login">
+        <span>JOIN</span>
+      </button>
     </form>
-    <article class="main__article">
-      
-    </article>
   </main>
 
 
   
   <script src="https://kit.fontawesome.com/f145f48ad9.js" crossorigin="anonymous"></script>
   <script src="./js/script.js"></script>
-  <script type="module" src="./js/section.js"></script>
   
 </body>
 

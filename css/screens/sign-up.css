@@ -1,0 +1,60 @@
+.main--sing-up{
+  margin-top:50px;
+}
+
+.main__screen-form__input--name{
+  margin-top:80px;
+  width:500px;
+}
+
+.main__screen-form__input--id{
+  margin-top:80px;
+  width:500px;
+}
+
+.main__screen-form__input--password--confirm{
+  margin-top:80px;
+  width:500px;
+}
+
+.main__screen-form__input--password{
+  margin-top:80px;
+  width:500px;
+}
+
+
+.main__serach-form--sign-up{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main__serach-form--login{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main__screen_form__button--login{
+  margin-top:80px;
+  height:80px;
+  width:500px;
+  font-size:50px;
+  background-color:rgba(1,1,1,0.5);
+  border:2px solid white;
+  border-radius: 10px;
+  color:yellow;
+}
+
+
+@media screen and (max-width:600px){
+  .main__screen-form__input--id, .main__screen-form__input--name, .main__screen-form__input--password, .main__screen-form__input--password--confirm {
+    width:80vw;
+  }
+  
+  .main__screen_form__button--login{
+    width:90vw;
+  }
+}

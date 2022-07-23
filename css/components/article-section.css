@@ -1,0 +1,48 @@
+
+.main__article__section__img{
+  height:100%;
+}
+
+.main__article__section__div{
+  display:flex;
+  flex-direction: column;
+  width:100%;
+}
+.main__article__section__h1{
+  padding-top:5px;
+  text-align: center;
+  font-weight: 800;
+  font-size:21px;
+}
+.main__article__section__p{
+  padding-top:10px;
+}
+
+.main__article__section{
+  border-radius:10px;
+  min-height:300px;
+  width:350px;
+  margin-right:11px;
+  margin-left:11px;
+  margin-bottom:13px;
+  margin-top:12px;
+  flex-shrink:0;
+  flex-grow:1;
+  background-color:white;
+  display:flex;
+  transition:all ease-in-out 0.3s ;
+}
+
+.main__article{
+  display:flex;
+  flex-wrap:wrap;
+  max-width:1000px;
+}
+
+.main__article__section:hover{
+  margin-right:2px;
+  margin-left:2px;
+  margin-bottom:3px;
+  margin-top:3px;
+  width:322px;
+}

@@ -1,0 +1,41 @@
+.main{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top:200px;
+}
+
+.main__serach-form{
+  margin-bottom:15px;
+}
+
+.main__screen-form__input{
+  width:600px;
+  height:50px;
+  outline:none;
+  border:none;
+  color:white;  
+  border-bottom:2px solid white;
+  font-size:40px;
+  background-color:transparent;
+  transition:all ease-in-out 0.5s;
+  
+
+}
+
+.main__screen-form__input:hover, :focus{
+  border-bottom:2px solid yellow;
+}
+
+.main__screen-form__input::placeholder{
+  font-size:1em;
+  color:white;
+}
+
+
+@media screen and (max-width:600px){
+  .main__screen-form__input{
+    width:90vw;
+  }
+}
