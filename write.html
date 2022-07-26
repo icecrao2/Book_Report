@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
     content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0">
-  <title>독후감</title>
+  <title>글쓰기 - 독후감</title>
   <link href="./img/open-book.png" rel="shortcut icon" type="image/x-icon">
   <link href="./css/style.css" rel="stylesheet" type="text/css" />
 </head>
@@ -20,13 +20,17 @@
     </div>
   </header>
 
-  <main class="main">
-    <form class="main__serach-form">
-      <input class="main__screen-form__input" type="text" placeholder="Enter The Title" />
+  <main class="main main--write">
+    <h1>글쓰기</h1>
+    <form class="main__write-form">
+        <input type="text" id="title" placeholder="제목" />
+        <div>
+          <input type="text" id="book_name" placeholder="책이름" />
+          <input type="text" id="writer" placeholder="글쓴이" readonly/>
+          <input type="date" id="today" readonly/>
+        </div>
+        <textarea rows="30" cols="100">></textarea>
     </form>
-    <article class="main__article">
-
-    </article>
   </main>
 
 
@@ -35,10 +39,10 @@
   <script defer type="module" src="./js/firebase/firebase_setting.js"></script>
   <script defer type="module" src="./js/firebase/DB/user_data.js"></script>
   <script defer type="module" src="./js/firebase/auth/auth_user.js"></script>
+  <script defer type="module" src="./js/write.js"></script>
 
   <script src="https://kit.fontawesome.com/f145f48ad9.js" crossorigin="anonymous"></script>
   <script src="./js/script.js"></script>
-  <script type="module" src="./js/section.js"></script>
 
 </body>
 
