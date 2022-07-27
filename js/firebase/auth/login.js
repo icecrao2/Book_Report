@@ -1,27 +1,19 @@
-import { getAuth, signInWithRedirect, GoogleAuthProvider, getRedirectResult } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
-
+import { getAuth, signInWithRedirect, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+import { authCheck } from './authenticationCheck.js';
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
-let userInfo = {};
 
-console.log(userInfo);
-
-if (auth.onAuthStateChanged(function(user) {
+async function login(){
   
-  console.log(user);
-
-  //not loged in
-  if (!user) {
-    signInWithRedirect(auth, provider).then((result) => { 
-      setTimeout(10000);
-      console.dir(result);
-    });
+  const user = await authCheck;
+  if (user === null) {
+    signInWithRedirect(auth, provider);
+  } else {
+    window.location.href = "index.html";
   }
-  //loged in
-  else {
-    window.location.href="index.html";
-  }
-}));
+  
+};
 
+login();
 
 //console.log(user);

@@ -15,25 +15,36 @@
 
   <header class="header">
     <div class="header__login-container">
+      <div>
+        <a class="header__href" href="./index.html">전체 독후감</a>
+        <a class="header__href" href="./write.html">나의 독후감</a>
+        <a class="header__href" href="./write.html">글쓰기</a>
+      </div>
       <a class="header__href header__href--sign-in" href="./sign-in.html">Sign in</a>
       <a class="header__href header__href--sign-out hidden" href="./sign-out.html">sign out</a>
     </div>
   </header>
 
   <main class="main main--write">
-    <h1>글쓰기</h1>
+    <h1 class="main__h1">글쓰기</h1>
     <form class="main__write-form">
-        <input type="text" id="title" placeholder="제목" />
+      <input type="text" id="title" placeholder="제목" />
+      <div class="main__div">
         <div>
           <input type="text" id="book_name" placeholder="책이름" />
-          <input type="text" id="writer" placeholder="글쓴이" readonly/>
-          <input type="date" id="today" readonly/>
+          <i class="fa-solid fa-magnifying-glass book-searching-btn"></i>
+        </div>
+        <div>
+          <input type="text" id="writer" placeholder="글쓴이" readonly />
+          <input type="date" id="today" readonly />
           <select name="public_scope">
-              <option value="public">public</option>
-              <option value="private">private</option>
+            <option value="public">public</option>
+            <option value="private">private</option>
           </select>
         </div>
-        <textarea rows="30" cols="100">></textarea>
+      </div>
+      <textarea rows="40" cols="150">></textarea>
+      <button id="wrting_submit">저장하기</button>
     </form>
   </main>
 
@@ -42,8 +53,7 @@
 
   <script defer type="module" src="./js/firebase/firebase_setting.js"></script>
   <script defer type="module" src="./js/firebase/DB/user_data.js"></script>
-  <script defer type="module" src="./js/firebase/auth/auth_user.js"></script>
-  <script defer type="module" src="./js/write.js"></script>
+  <script defer type="module" src="./js/page/write-page_maker.js"></script>
 
   <script src="https://kit.fontawesome.com/f145f48ad9.js" crossorigin="anonymous"></script>
   <script src="./js/script.js"></script>

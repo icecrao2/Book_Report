@@ -1,6 +1,99 @@
 .main__write-form{
-  display:flex;
-  flex-direction: column;
+    display:flex;
+    flex-direction: column;
+}
+
+.main__h1{
+  color:white;
+  font-size:60px;
+  margin-bottom:10px;
+}
+
+.main--write{
+  margin-top:100px;
+}
+
+textarea{
+  border-radius:10px;
+}
+
+input{
+  border-radius:5px;
+  height:30px;
+  font-size:15px;
+  flex:1;
 }
 
 
+select{
+  border-radius: 5px;
+  height: 30px;
+  font-size:15px;
+  min-width:68px;
+}
+
+.main__div div{
+  display:flex;
+  align-items:center;
+}
+
+#title{
+  height:30px;
+  font-size:25px;
+  margin-bottom:5px;
+}
+
+#writer, #today{
+  margin-right:5px;
+}
+
+.book-searching-btn{
+  color: black;
+  font-size: 30px;
+  margin-left: 5px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 2px;
+}
+
+#wrting_submit{
+  width: 140px;
+  height: 36px;
+  border-radius: 7px;
+  background-color: white;
+  margin-top: 5px;
+  font-weight: 800;
+  font-size: 20px;
+  margin-left: 935px;
+}
+
+@media screen and (min-width:1076px){
+  
+}
+
+@media screen and (max-width:1076px){
+
+  .main__h1{
+    font-size:40px;
+  }
+
+  input{
+    min-width:140px;
+  }
+  
+  .main__write-form{
+    width:100%;
+  }  
+  
+  .main__div{
+    display:flex;
+    flex-direction:column;
+    margin-bottom:5px;
+  }
+  
+  .main__div div{
+    flex-wrap: wrap;
+  }
+
+}

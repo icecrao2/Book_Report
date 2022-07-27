@@ -12,3 +12,9 @@
 .header__href:hover{
   cursor: pointer;
 }
+
+.header__login-container{
+  width:100%;
+  display:flex;
+  justify-content: space-between;
+}
