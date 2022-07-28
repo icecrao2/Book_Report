@@ -3,44 +3,61 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.
 
 
 
-export const writeUserData = function(userId, name, email, imageUrl) {
-  const db = getDatabase();
-  set(ref(db, 'users/' + userId), {
-    username: name,
-    email: email,
-    profile_picture : imageUrl
-  }).then(()=>{
-    console.log("complete!");
-  }).catch(()=>{
-    console.log("error!");
+export const writePostData = (writer, title, ISBN, scope, today, text, email) =>
+  new Promise((resolve, reject) => {
+
+
+    const db = getDatabase();
+
+    const key = push(child(ref(db), 'posts')).key;
+
+    set(ref(db, 'posts/' + key), {
+      writer: writer,
+      title: title,
+      ISBN: ISBN,
+      today: today,
+      text: text,
+      scope: scope,
+      email: email
+    }).then(() => {
+      console.log("complete!");
+      resolve();
+    }).catch(() => {
+      console.log("error!");
+      reject();
+    });
+
+
   });
-};
+
+
+
 
 //get userData by snapshot
-export const getUserData = function(userId){
+export const getPostData = function(userId) {
   const dbRef = ref(getDatabase());
-  
-  get(child(dbRef, `users/${userId}`)).then((snapshot) => {
-    
+
+  get(child(dbRef, `posts/${userId}`)).then((snapshot) => {
+
     if (snapshot.exists()) {
       console.log(snapshot.val());
     } else {
       console.log("No data available");
     }
   }).catch((error) => {
-    
+
     console.error(error);
-    
+
   });
 };
 
 //this get loged in people's info
-export const testData = function(){
+export const testData = function() {
   const db = getDatabase();
   const auth = getAuth();
-  
+
   const userId = auth.currentUser.uid;
-  return onValue(ref(db, '/users/' + userId), (snapshot) => {
+  return onValue(ref(db, '/posts/' + userId), (snapshot) => {
     const username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
     console.log(username);
   }, {
@@ -50,7 +67,7 @@ export const testData = function(){
 
 //userId is key
 //if you want change user's info,  you must know userId 
-export const updateUserData = function(userId, name, email, imageUrl) {
+export const updatePostData = function(userId, name, email, imageUrl) {
   const db = getDatabase();
 
   // A post entry.
@@ -62,22 +79,22 @@ export const updateUserData = function(userId, name, email, imageUrl) {
 
   const updates = {};
   //key:value structure
-  updates['/users/' + userId] = postData;
+  updates['/posts/' + userId] = postData;
   //updates['/user-posts/' + uid + '/' + newPostKey] = postData;
 
-  update(ref(db), updates).then(()=>{
+  update(ref(db), updates).then(() => {
     console.log("complete!");
-  }).catch(()=>{
+  }).catch(() => {
     console.log("error!");
   });
 };
 
 
-export const deleteUserData = function(userId){
+export const deletePostData = function(userId) {
   const db = getDatabase();
-  remove(ref(db, 'users/'+userId)).then(()=>{
+  remove(ref(db, 'posts/' + userId)).then(() => {
     console.log("complete!");
-  }).catch(()=>{
+  }).catch(() => {
     console.log("error1");
   })
 }
@@ -86,4 +103,4 @@ export const deleteUserData = function(userId){
 
 //updateUserData(5,16,16,16);
 //deleteUserData(5);
-getUserData(9);
+//getPostData(9);

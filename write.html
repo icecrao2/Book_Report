@@ -37,14 +37,14 @@
         <div>
           <input type="text" id="writer" placeholder="글쓴이" readonly />
           <input type="date" id="today" readonly />
-          <select name="public_scope">
+          <select name="public_scope" id="scope">
             <option value="public">public</option>
             <option value="private">private</option>
           </select>
         </div>
       </div>
-      <textarea rows="40" cols="150">></textarea>
-      <button id="wrting_submit">저장하기</button>
+      <textarea rows="40" cols="150"></textarea>
+      <button id="writng_submit">저장하기</button>
     </form>
   </main>
 
@@ -52,7 +52,6 @@
 
 
   <script defer type="module" src="./js/firebase/firebase_setting.js"></script>
-  <script defer type="module" src="./js/firebase/DB/user_data.js"></script>
   <script defer type="module" src="./js/page/write-page_maker.js"></script>
 
   <script src="https://kit.fontawesome.com/f145f48ad9.js" crossorigin="anonymous"></script>
