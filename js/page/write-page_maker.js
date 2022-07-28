@@ -1,6 +1,7 @@
 import { authCheck } from '../firebase/auth/authenticationCheck.js';
 import { changeHeader } from '../components/header_maker.js';
 import { writePostData } from '../firebase/DB/post_data.js';
+import { getBookByTitle } from '../api/getBookByKakao.js';
 
 const writng_submit = document.querySelector("#writng_submit");
 
@@ -10,6 +11,7 @@ const writer = document.querySelector("#writer");
 const dateForm = document.querySelector("#today");
 const textArea = document.querySelector("textarea");
 const scope = document.querySelector("#scope");
+const book_searching_btn = document.querySelector(".book-searching-btn");
 
 
 let email;
@@ -43,6 +45,12 @@ const submitBtnEvent = async function(evt) {
 
 }
 
+const getBookISBN = async function() {
+  console.dir(getBookByTitle(book_name.value));
+  const bookArray = await getBookByTitle(book_name.value);
+  console.dir(bookArray[0]);
+}
+
 const pageMaker = async function() {
 
   const user = await authCheck;
@@ -57,6 +65,7 @@ const pageMaker = async function() {
   inputDefaultValue(user);
 
   writng_submit.addEventListener("click", submitBtnEvent);
+  book_searching_btn.addEventListener("click", getBookISBN);
 
 };
 
