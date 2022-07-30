@@ -12,6 +12,7 @@ const dateForm = document.querySelector("#today");
 const textArea = document.querySelector("textarea");
 const scope = document.querySelector("#scope");
 const book_searching_btn = document.querySelector(".book-searching-btn");
+const isbn = document.querySelector("#isbn");
 const form = document.querySelector("form");
 
 let email;
@@ -32,23 +33,25 @@ const inputDefaultValue = function(user) {
 
 const submitBtnEvent = async function(evt) {
 
-  const ISBN = '9788972917038';
+  evt.preventDefault();
+
+  const ISBN = isbn.value;
   console.log(scope.value);
-  writePostData(writer.value, title.value, ISBN, scope.value, dateForm.value, textArea.value, email).then(() => {
+  await writePostData(writer.value, title.value, ISBN, scope.value, dateForm.value, textArea.value, email).then(() => {
     window.location.href = "index.html";
   });
-
-  //window.location.href = "index.html";
-
-
-  evt.preventDefault();
 
 }
 
 const getBookISBN = async function() {
-  const bookArray = await getBookByTitle(book_name.value);
+  if (book_name.value === null || book_name.value === undefined || book_name.value === '') {
 
-  const popup = window.open(`book_popup.html?name=${encodeURI(book_name.value, 'utf-8')}`, "search-book", "width = 1000, height = 800, top = 100, left = 200, location = no");
+  }
+  else {
+    const bookArray = await getBookByTitle(book_name.value);
+
+    const popup = window.open(`book_popup.html?name=${encodeURI(book_name.value, 'utf-8')}`, "search-book", "width = 1000, height = 800, top = 100, left = 200, location = no");
+  }
 }
 
 const preventEnterKey = function() {
@@ -72,7 +75,7 @@ const pageMaker = async function() {
   email = user.email;
   inputDefaultValue(user);
 
-  writng_submit.addEventListener("click", submitBtnEvent);
+  form.addEventListener("submit", submitBtnEvent);
   book_searching_btn.addEventListener("click", getBookISBN);
 
 };

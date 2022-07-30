@@ -27,13 +27,13 @@
 
   <main class="main main--write">
     <h1 class="main__h1">글쓰기</h1>
-    <form class="main__write-form">
-      <input type="text" id="title" placeholder="제목" />
+    <form action="" class="main__write-form">
+      <input type="text" required id="title" placeholder="제목" />
       <div class="main__div">
         <div>
-          <input type="text" id="book_name" placeholder="책이름" />
+          <input type="text" required id="book_name" placeholder="책이름" />
           <i class="fa-solid fa-magnifying-glass book-searching-btn"></i>
-          <input type="text" id="isbn" placeholder="isbn" />
+          <input type="text" required id="isbn" readonly placeholder="isbn" />
         </div>
         <div>
           <input type="text" id="writer" placeholder="글쓴이" readonly />
@@ -44,8 +44,8 @@
           </select>
         </div>
       </div>
-      <textarea rows="40" cols="150"></textarea>
-      <button id="writng_submit">저장하기</button>
+      <textarea required rows="40" cols="150"></textarea>
+      <button type="submit" id="writng_submit">저장하기</button>
     </form>
   </main>
 

@@ -4,7 +4,14 @@ import { getBookByTitle, getBookByIsbn } from '../api/getBookByKakao.js';
 
 const ul = document.querySelector("ul");
 const search = document.querySelector("#book_name");
+const button = document.querySelector(".book-searching-btn");
 
+
+function removeAllchild(div) {
+  while (div.hasChildNodes()) {
+    div.removeChild(div.firstChild);
+  }
+};
 
 const make_search_input = function() {
   const url = location.href;
@@ -13,20 +20,19 @@ const make_search_input = function() {
   search.value = decodeURI(book_name[1]);
 };
 
-const click_li_event = async function(evt) {
+const click_li_event = function(evt) {
 
-  let id = evt.target.id;
+  console.dir(evt);
+  let id = evt.currentTarget.id;
   let isbn_array = id.split(' ');
   let isbn;
-  console.log(id);
-  if (isbn_array[0] == "")
+  if (isbn_array[0] == "" || isbn_array[0] === null || isbn_array[0] === undefined)
     isbn = isbn_array[1];
   else
     isbn = isbn_array[0];
-  console.log(isbn);
-  const book_info = await getBookByIsbn(isbn);
-  console.log(book_info);
+
   opener.document.querySelector("#isbn").value = isbn;
+
   window.close();
 }
 
@@ -35,21 +41,34 @@ const make_book_list = async function() {
   const book_name = search.value;
   const book_list = await getBookByTitle(book_name);
   console.log(book_list);
-  for (let i = 0; i < SEARCH_NUMBER; i++) {
-    const li = document.createElement("li");
-    const title_span = document.createElement("span");
-    const author_span = document.createElement("span");
-    const img = document.createElement("img");
-    title_span.innerHTML = book_list[i].title;
-    author_span.innerHTML = book_list[i].authors[0];
-    img.src = book_list[i].thumbnail;
-    img.alt = "no img";
-    li.appendChild(img);
-    li.appendChild(title_span);
-    li.appendChild(author_span);
-    li.id = book_list[i].isbn;
-    ul.appendChild(li);
+
+  if (!Array.isArray(book_list) || book_list.length == 0) {
+    ul.innerHTML = "<li>찾으시는 내용이 없습니다! </li>";
   }
+  else {
+    for (let i = 0; i < SEARCH_NUMBER; i++) {
+      const li = document.createElement("li");
+      const title_span = document.createElement("span");
+      const author_span = document.createElement("span");
+      const img = document.createElement("img");
+      title_span.innerHTML = book_list[i].title;
+      author_span.innerHTML = book_list[i].authors[0];
+      img.src = book_list[i].thumbnail;
+      img.alt = "no img";
+      li.appendChild(img);
+      li.appendChild(title_span);
+      li.appendChild(author_span);
+      li.id = book_list[i].isbn;
+      ul.appendChild(li);
+    }
+  }
+
+
+}
+
+const book_searching_event = async function() {
+  removeAllchild(ul);
+  make_book_list(search.value);
 }
 
 const popup_maker = async function() {
@@ -61,6 +80,8 @@ const popup_maker = async function() {
   for (let i = 0; i < li.length; i++) {
     li[i].addEventListener("click", click_li_event);
   }
+
+  button.addEventListener("click", book_searching_event);
 
 };
 popup_maker();
