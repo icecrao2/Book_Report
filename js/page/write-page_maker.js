@@ -12,7 +12,7 @@ const dateForm = document.querySelector("#today");
 const textArea = document.querySelector("textarea");
 const scope = document.querySelector("#scope");
 const book_searching_btn = document.querySelector(".book-searching-btn");
-
+const form = document.querySelector("form");
 
 let email;
 
@@ -46,22 +46,30 @@ const submitBtnEvent = async function(evt) {
 }
 
 const getBookISBN = async function() {
-  console.dir(getBookByTitle(book_name.value));
   const bookArray = await getBookByTitle(book_name.value);
-  console.dir(bookArray[0]);
+
+  const popup = window.open(`book_popup.html?name=${encodeURI(book_name.value, 'utf-8')}`, "search-book", "width = 1000, height = 800, top = 100, left = 200, location = no");
 }
+
+const preventEnterKey = function() {
+  form.addEventListener("keydown", (event) => {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+    };
+  });
+};
 
 const pageMaker = async function() {
 
   const user = await authCheck;
-  email = user.email;
-  changeHeader(user);
 
   if (user === null) {
     alert("로그인하세요!");
     window.location.href = "index.html";
   }
-
+  preventEnterKey();
+  changeHeader(user);
+  email = user.email;
   inputDefaultValue(user);
 
   writng_submit.addEventListener("click", submitBtnEvent);
