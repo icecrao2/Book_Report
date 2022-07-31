@@ -9,13 +9,14 @@ const SECTION_NUMBER = 9;
 
 const getBookList = async function() {
 
-  const publicBookArray = await getPostData("public");
-
+  const publicBookArrayFunc = await getPostData("public");
+  let publicBookArray = [];
   //이런식으로 받아야지 정렬됨
-  publicBookArray.forEach(function(child) {
+  publicBookArrayFunc.forEach(function(child) {
     console.log(child.val());
+    publicBookArray.push(child.val());
   });
-
+  console.log(publicBookArray);
 
   for (let i = 0; i < SECTION_NUMBER; i++) {
 

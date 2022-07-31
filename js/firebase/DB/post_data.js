@@ -1,4 +1,4 @@
-import { getDatabase, ref, set, child, get, onValue, push, update, remove, query, limitToLast, limitToFirst, orderByChild, endAt } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+import { getDatabase, ref, set, child, get, onValue, push, update, remove, query, orderByChild } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 
 export const writePostData = (writer, title, ISBN, scope, today, text, email) =>
@@ -37,7 +37,7 @@ export const getPostData = (scope) =>
     const db = getDatabase();
     const dbRef = ref(getDatabase());
 
-    const recentPostsRef = query(ref(db, 'posts/public'), orderByChild('today'), limitToLast(10));
+    const recentPostsRef = query(ref(db, 'posts/public'), orderByChild('today'));
 
     get(recentPostsRef, `posts/${scope}`).then((snapshot) => {
 
