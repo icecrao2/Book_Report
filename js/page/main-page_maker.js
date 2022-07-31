@@ -1,6 +1,7 @@
 import { getBookByIsbn } from '../api/getBookByKakao.js';
 import { authCheck } from '../firebase/auth/authenticationCheck.js';
-import {changeHeader} from '../components/header_maker.js';
+import { changeHeader } from '../components/header_maker.js';
+import { getPostData } from '../firebase/DB/post_data.js';
 
 const main__article = document.querySelector(".main__article");
 const SECTION_NUMBER = 9;
@@ -8,7 +9,16 @@ const SECTION_NUMBER = 9;
 
 const getBookList = async function() {
 
+  const publicBookArray = await getPostData("public");
+
+  //이런식으로 받아야지 정렬됨
+  publicBookArray.forEach(function(child) {
+    console.log(child.val());
+  });
+
+
   for (let i = 0; i < SECTION_NUMBER; i++) {
+
 
     const data = await getBookByIsbn('9788972917038');
 
@@ -53,9 +63,9 @@ const pageMaker = async function() {
   if (user === null) {
 
   } else {
-    console.log(user);
+    //console.log(user);
   }
-  
+
 };
 
 

@@ -1,7 +1,5 @@
-import { getDatabase, ref, set, child, get, onValue, push, update, remove } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+import { getDatabase, ref, set, child, get, onValue, push, update, remove, query, limitToLast, limitToFirst, orderByChild, endAt } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
-
-
 
 export const writePostData = (writer, title, ISBN, scope, today, text, email) =>
   new Promise((resolve, reject) => {
@@ -11,13 +9,12 @@ export const writePostData = (writer, title, ISBN, scope, today, text, email) =>
 
     const key = push(child(ref(db), 'posts')).key;
 
-    set(ref(db, 'posts/' + key), {
+    set(ref(db, `posts/${scope}/` + key), {
       writer: writer,
       title: title,
       ISBN: ISBN,
       today: today,
       text: text,
-      scope: scope,
       email: email
     }).then(() => {
       console.log("complete!");
@@ -34,22 +31,36 @@ export const writePostData = (writer, title, ISBN, scope, today, text, email) =>
 
 
 //get userData by snapshot
-export const getPostData = function(userId) {
-  const dbRef = ref(getDatabase());
+export const getPostData = (scope) =>
+  new Promise(async (resolve, reject) => {
 
-  get(child(dbRef, `posts/${userId}`)).then((snapshot) => {
+    const db = getDatabase();
+    const dbRef = ref(getDatabase());
 
-    if (snapshot.exists()) {
-      console.log(snapshot.val());
-    } else {
-      console.log("No data available");
-    }
-  }).catch((error) => {
+    const recentPostsRef = query(ref(db, 'posts/public'), orderByChild('today'), limitToLast(10));
 
-    console.error(error);
+    get(recentPostsRef, `posts/${scope}`).then((snapshot) => {
+
+      if (snapshot.exists()) {
+        snapshot.forEach(function(child) {
+          console.log(child.val());
+        });
+
+
+        //  console.log(snapshot.val());
+        resolve(snapshot);
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+
+      console.error(error);
+
+    });
 
   });
-};
+
+
 
 //this get loged in people's info
 export const testData = function() {
