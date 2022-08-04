@@ -11,17 +11,29 @@ const getBookList = async function() {
 
   const publicBookArrayFunc = await getPostData("public");
   let publicBookArray = [];
+  let publicBookKeyArray = [];
   //이런식으로 받아야지 정렬됨
   publicBookArrayFunc.forEach(function(child) {
-    console.log(child.val());
     publicBookArray.push(child.val());
+    publicBookKeyArray.push(child.key);
   });
+  publicBookArray.reverse();
+  publicBookKeyArray.reverse();
+
+  const page = 1;
+  let startArrayIndex = (page - 1) * 10;
+  let endArrayIndex = (page) * 10;
+
+  if (publicBookArray.length < endArrayIndex) {
+    endArrayIndex = publicBookArray.length;
+  }
+
   console.log(publicBookArray);
 
-  for (let i = 0; i < SECTION_NUMBER; i++) {
+  for (let i = startArrayIndex; i < endArrayIndex; i++) {
 
 
-    const data = await getBookByIsbn('9788972917038');
+    const data = await getBookByIsbn(publicBookArray[i].ISBN);
 
     const main__article__section__img = document.createElement("img");
     main__article__section__img.classList.add("main__article__section__img");
@@ -34,8 +46,17 @@ const getBookList = async function() {
     const main__article__section__div__p = document.createElement("p");
 
     //DB에서 불러와야함
-    main__article__section__div__h1.innerText = "열여덟글자";
-    main__article__section__div__p.innerText = "독후감 내용(짧게)";
+    if (publicBookArray[i].title.length >= 18)
+      main__article__section__div__h1.innerText = publicBookArray[i].title.substring(0, 19);
+    else
+      main__article__section__div__h1.innerText = publicBookArray[i].title;
+
+    main__article__section.id = publicBookKeyArray[i];
+
+    if (publicBookArray[i].text.length >= 120)
+      main__article__section__div__p.innerText = publicBookArray[i].text.substring(0, 121);
+    else
+      main__article__section__div__p.innerText = publicBookArray[i].text;
 
 
 
@@ -50,13 +71,24 @@ const getBookList = async function() {
     main__article__section__div.appendChild(main__article__section__div__p);
     main__article__section.appendChild(main__article__section__div);
 
+    main__article__section.addEventListener("click", main__article__section_clickEvent);
+
     main__article.appendChild(main__article__section);
+
+
   }
 
 };
 
+const main__article__section_clickEvent = function(event) {
+  console.log(event.currentTarget);
+  const id = event.currentTarget.id;
+  window.location.href = `detail.html?id=${encodeURI(id, 'utf-8')}`;
+
+};
+
 const pageMaker = async function() {
-  getBookList();
+  await getBookList();
 
   const user = await authCheck;
   changeHeader(user);
@@ -64,11 +96,11 @@ const pageMaker = async function() {
   if (user === null) {
 
   } else {
+
     //console.log(user);
   }
 
 };
-
 
 pageMaker();
 

@@ -18,19 +18,6 @@ const form = document.querySelector("form");
 let email;
 
 
-const inputDefaultValue = function(user) {
-  writer.value = user.displayName;
-
-  var date = new Date();
-  var year = date.getFullYear();
-  var month = ("0" + (1 + date.getMonth())).slice(-2);
-  var day = ("0" + date.getDate()).slice(-2);
-
-  var today = year + "-" + month + "-" + day;
-
-  dateForm.value = today;
-}
-
 const submitBtnEvent = async function(evt) {
 
   evt.preventDefault();
@@ -82,7 +69,6 @@ const pageMaker = async function() {
   preventEnterKey();
   changeHeader(user);
   email = user.email;
-  inputDefaultValue(user);
 
   form.addEventListener("submit", submitBtnEvent);
   book_searching_btn.addEventListener("click", getBookISBN);
