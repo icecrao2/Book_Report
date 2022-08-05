@@ -28,6 +28,20 @@ export const writePostData = (writer, title, ISBN, scope, today, text, email) =>
   });
 
 
+export const getPostDataByKey = (scope, key) =>
+  new Promise(async (resolve, reject) => {
+
+    const db = getDatabase();
+    const dbRef = ref(db);
+
+    get(child(dbRef, `posts/${scope}/${key}`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        resolve(snapshot.val());
+      } else {
+        resolve();
+      }
+    });
+  });
 
 
 //get userData by snapshot

@@ -1,47 +1,41 @@
 import { authCheck } from '../firebase/auth/authenticationCheck.js';
 import { changeHeader } from '../components/header_maker.js';
-import { writePostData } from '../firebase/DB/post_data.js';
-import { getBookByTitle } from '../api/getBookByKakao.js';
+import { getPostDataByKey } from '../firebase/DB/post_data.js';
+import { getBookByIsbn } from '../api/getBookByKakao.js';
+import { getParameter } from './util.js';
 
-const writng_submit = document.querySelector("#writng_submit");
 
-const title = document.querySelector("#title");
+const form = document.querySelector("form");
+const main__h1 = document.querySelector(".main__h1");
+const main__div__second = document.querySelector(".main__div--second");
 const book_name = document.querySelector("#book_name");
 const writer = document.querySelector("#writer");
-const dateForm = document.querySelector("#today");
 const textArea = document.querySelector("textarea");
-const scope = document.querySelector("#scope");
-const book_searching_btn = document.querySelector(".book-searching-btn");
-const isbn = document.querySelector("#isbn");
-const form = document.querySelector("form");
 
-let email;
+const inputDefaultValue = async function() {
+  const value = await getPostData();
+  main__h1.innerHTML = value.title;
+  const book = await getBookByIsbn(value.ISBN);
+  const src = book.thumbnail;
+  const img = document.createElement("img");
+  img.src = src;
+  main__div__second.appendChild(img);
+  img.id = "img--detail";
 
+  book_name.value = book.title;
+  writer.value = value.writer;
+  today.value = value.today;
+  textArea.value = value.text;
+  console.log(value);
+};
 
-const submitBtnEvent = async function(evt) {
-
-  evt.preventDefault();
-
-  const ISBN = isbn.value;
-  console.log(scope.value);
-
-
-  await writePostData(writer.value, title.value, ISBN, scope.value, dateForm.value, textArea.value, email).then(() => {
-    window.location.href = "index.html";
-  });
-
+const getPostData = async function() {
+  const value = getParameter();
+  const postData = await getPostDataByKey('public', value[1]);
+  console.log(postData);
+  return postData;
 }
 
-const getBookISBN = async function() {
-  if (book_name.value === null || book_name.value === undefined || book_name.value === '') {
-
-  }
-  else {
-    const bookArray = await getBookByTitle(book_name.value);
-
-    const popup = window.open(`book_popup.html?name=${encodeURI(book_name.value, 'utf-8')}`, "search-book", "width = 1000, height = 800, top = 100, left = 200, location = no");
-  }
-}
 
 const preventEnterKey = function() {
   form.addEventListener("keydown", (event) => {
@@ -58,6 +52,7 @@ const preventEnterKey = function() {
   });
 };
 
+
 const pageMaker = async function() {
 
   const user = await authCheck;
@@ -67,12 +62,12 @@ const pageMaker = async function() {
     window.location.href = "index.html";
   }
   preventEnterKey();
+  inputDefaultValue();
   changeHeader(user);
-  email = user.email;
 
-  form.addEventListener("submit", submitBtnEvent);
-  book_searching_btn.addEventListener("click", getBookISBN);
+
 
 };
 
 pageMaker();
+getPostData();

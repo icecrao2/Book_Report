@@ -1,0 +1,32 @@
+span {
+  color:white;
+  width:58px;
+}
+
+.detail-input{
+  height:48px;
+  margin-right: 5px;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.main__container{
+  display: flex;
+  flex-direction: row;
+}
+
+.main__div--detail{
+  flex:1;
+}
+
+#img--detail{
+  border:1px solid white;
+}
+
+.main__h1--detail{
+  margin-up:
+}
+
+.main--detail{
+  margin-top:55px;
+}

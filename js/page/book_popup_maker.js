@@ -1,5 +1,6 @@
 
 import { getBookByTitle, getBookByIsbn } from '../api/getBookByKakao.js';
+import { getParameter } from './util.js';
 
 
 const ul = document.querySelector("ul");
@@ -13,10 +14,10 @@ function removeAllchild(div) {
   }
 };
 
+
+
 const make_search_input = function() {
-  const url = location.href;
-  const parameter = url.slice(url.indexOf('?') + 1, url.length);
-  const book_name = parameter.split('=');
+  const book_name = getParameter();
   search.value = decodeURI(book_name[1]);
 };
 
