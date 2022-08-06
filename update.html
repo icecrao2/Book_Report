@@ -5,10 +5,9 @@
   <meta charset="utf-8">
   <meta name="viewport"
     content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0">
-  <title>글읽기 - 독후감</title>
+  <title>수정하기 - 독후감</title>
   <link href="./img/open-book.png" rel="shortcut icon" type="image/x-icon">
   <link href="./css/style.css" rel="stylesheet" type="text/css" />
-  <link href="./css/components/main--detail.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -26,33 +25,29 @@
     </div>
   </header>
 
-  <main class="main main--detail">
-    <h1 class="main__h1 main__h1--detail">제목</h1>
+  <main class="main main--write">
+    <h1 class="main__h1">글 수정하기</h1>
     <form action="" class="main__write-form">
-      <div class="main__container">
-        <div class="main__div main__div--detail">
-          <div>
-            <span>책이름 : </span> <input class="detail-input" id="book_name" type="text" readonly />
-          </div>
-          <div>
-            <span>작성자 : </span><input class="detail-input" type="text" readonly id="writer" placeholder="글쓴이"
-              readonly />
-            </select>
-          </div>
-          <div>
-            <span>날짜 : </span><input class="detail-input" type="text" id="today" readonly />
-          </div>
+      <input type="text" required maxlength="25" id="title" placeholder="제목" />
+      <div class="main__div">
+        <div>
+          <input type="text" required id="book_name" placeholder="책이름" />
+          <i class="fa-solid fa-magnifying-glass book-searching-btn"></i>
+          <input type="text" required id="isbn" readonly placeholder="isbn" />
         </div>
-        <div class="main__div--second">
+        <div>
+          <input type="text" id="writer" placeholder="글쓴이" readonly />
+          <input type="date" id="today" readonly />
+          <select name="public_scope" id="scope">
+            <option value="public">public</option>
+            <option value="private">private</option>
+          </select>
         </div>
       </div>
       <div>
-        <textarea readonly required rows="40" cols="150"></textarea>
+        <textarea required rows="40" cols="150"></textarea>
       </div>
-      <div>
-        <button type="submit" class="detail-btns hidden" id="update">수정하기</button>
-        <button type="submit" class="detail-btns hidden" id="delete">삭제하기</button>
-      </div>
+      <button type="submit" id="writng_submit">저장하기</button>
     </form>
   </main>
 
@@ -60,7 +55,7 @@
 
 
   <script defer type="module" src="./js/firebase/firebase_setting.js"></script>
-  <script defer type="module" src="./js/page/detail-page_maker.js"></script>
+  <script defer type="module" src="./js/page/update-page_maker.js"></script>
 
   <script src="https://kit.fontawesome.com/f145f48ad9.js" crossorigin="anonymous"></script>
   <script src="./js/script.js"></script>

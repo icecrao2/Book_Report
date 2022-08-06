@@ -1,6 +1,6 @@
 import { authCheck } from '../firebase/auth/authenticationCheck.js';
 import { changeHeader } from '../components/header_maker.js';
-import { getPostDataByKey } from '../firebase/DB/post_data.js';
+import { getPostDataByKey, deletePostData } from '../firebase/DB/post_data.js';
 import { getBookByIsbn } from '../api/getBookByKakao.js';
 import { getParameter } from './util.js';
 
@@ -11,6 +11,9 @@ const main__div__second = document.querySelector(".main__div--second");
 const book_name = document.querySelector("#book_name");
 const writer = document.querySelector("#writer");
 const textArea = document.querySelector("textarea");
+const detail_btns = document.querySelectorAll('.detail-btns');
+const del = document.querySelector('#delete');
+const update = document.querySelector('#update');
 
 const inputDefaultValue = async function() {
   const value = await getPostData();
@@ -31,11 +34,10 @@ const inputDefaultValue = async function() {
 
 const getPostData = async function() {
   const value = getParameter();
-  const postData = await getPostDataByKey('public', value[1]);
+  const postData = await getPostDataByKey(value[2], value[1]);
   console.log(postData);
   return postData;
 }
-
 
 const preventEnterKey = function() {
   form.addEventListener("keydown", (event) => {
@@ -52,6 +54,42 @@ const preventEnterKey = function() {
   });
 };
 
+const checkPostAuth = async function(userEmail) {
+  const value = await getPostData();
+  const email = value.email;
+
+  if (email === userEmail) {
+    makeBtn(value[1]);
+  }
+};
+
+const makeBtn = function() {
+
+  del.addEventListener("click", deleteBtnEvent);
+  update.addEventListener("click", updateBtnEvent);
+  for (let i = 0; i < detail_btns.length; i++) {
+    detail_btns[i].classList.remove('hidden');
+  }
+}
+
+const deleteBtnEvent = async function(evt) {
+
+  evt.preventDefault();
+  const value = getParameter();
+  const scope = value[2];
+  const key = value[1];
+  await deletePostData(scope, key);
+  window.location.href = "index.html";
+}
+
+const updateBtnEvent = function(evt) {
+
+  evt.preventDefault();
+
+  const value = getParameter();
+  window.location.href = `update.html?id=${encodeURI(value[1] + '=' + value[2], 'utf-8')}`;
+
+}
 
 const pageMaker = async function() {
 
@@ -62,9 +100,9 @@ const pageMaker = async function() {
     window.location.href = "index.html";
   }
   preventEnterKey();
-  inputDefaultValue();
+  await inputDefaultValue();
+  checkPostAuth(user.email);
   changeHeader(user);
-
 
 
 };

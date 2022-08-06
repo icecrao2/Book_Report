@@ -1,4 +1,4 @@
-import { getDatabase, ref, set, child, get, onValue, push, update, remove, query, orderByChild } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+import { getDatabase, ref, set, child, get, onValue, push, update, remove, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 
 export const writePostData = (writer, title, ISBN, scope, today, text, email) =>
@@ -44,6 +44,29 @@ export const getPostDataByKey = (scope, key) =>
   });
 
 
+
+export const getPostDataByUser = (scope, user) =>
+  new Promise(async (resolve, reject) => {
+
+    const db = getDatabase();
+    const dbRef = ref(getDatabase());
+
+    const recentPostsRef = query(ref(db, `posts/${scope}`), orderByChild('email'), equalTo(user));
+
+    get(recentPostsRef, `posts/${scope}`).then((snapshot) => {
+      if (snapshot.exists()) {
+        snapshot.forEach(function(child) {
+          console.log(child.val());
+        });
+        resolve(snapshot);
+      }
+    });
+
+  });
+
+
+
+
 //get userData by snapshot
 export const getPostData = (scope) =>
   new Promise(async (resolve, reject) => {
@@ -51,9 +74,9 @@ export const getPostData = (scope) =>
     const db = getDatabase();
     const dbRef = ref(getDatabase());
 
-    const recentPostsRef = query(ref(db, 'posts/public'), orderByChild('today'));
+    const recentPostsRef = query(ref(db, `posts/${scope}`), orderByChild('today'));
 
-    get(recentPostsRef, `posts/${scope}`).then((snapshot) => {
+    get(recentPostsRef, `posts / ${scope}`).then((snapshot) => {
 
       if (snapshot.exists()) {
         snapshot.forEach(function(child) {
@@ -75,6 +98,50 @@ export const getPostData = (scope) =>
   });
 
 
+//userId is key
+//if you want change user's info,  you must know userId 
+export const updatePostData = (writer, title, ISBN, scope, today, text, email, key) => 
+  new Promise(async (resolve, reject) => {
+  const db = getDatabase();
+
+  // A post entry.
+  const postData = {
+    writer: writer,
+    title: title,
+    ISBN: ISBN,
+    today: today,
+    text: text,
+    email: email
+  };
+
+  const updates = {};
+  //key:value structure
+  updates[`/posts/${scope}/${key}`] = postData;
+  //updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+
+  update(ref(db), updates).then(() => {
+    console.log("complete!");
+    resolve();
+  }).catch(() => {
+    console.log("error!");
+  });
+});
+
+
+
+export const deletePostData = (scope, key) =>
+  new Promise(async (resolve, reject) => {
+    const db = getDatabase();
+    remove(ref(db, `posts/${scope}/${key}`)).then(() => {
+      console.log("complete!");
+      alert('삭제되었습니다');
+      resolve();
+    }).catch(() => {
+      console.log("error1");
+    })
+
+  });
+
 
 //this get loged in people's info
 export const testData = function() {
@@ -89,40 +156,6 @@ export const testData = function() {
     onlyOnce: true
   });
 };
-
-//userId is key
-//if you want change user's info,  you must know userId 
-export const updatePostData = function(userId, name, email, imageUrl) {
-  const db = getDatabase();
-
-  // A post entry.
-  const postData = {
-    name: name,
-    email: email,
-    imageUrl: imageUrl
-  };
-
-  const updates = {};
-  //key:value structure
-  updates['/posts/' + userId] = postData;
-  //updates['/user-posts/' + uid + '/' + newPostKey] = postData;
-
-  update(ref(db), updates).then(() => {
-    console.log("complete!");
-  }).catch(() => {
-    console.log("error!");
-  });
-};
-
-
-export const deletePostData = function(userId) {
-  const db = getDatabase();
-  remove(ref(db, 'posts/' + userId)).then(() => {
-    console.log("complete!");
-  }).catch(() => {
-    console.log("error1");
-  })
-}
 
 
 

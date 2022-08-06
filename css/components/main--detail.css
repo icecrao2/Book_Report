@@ -23,10 +23,26 @@ span {
   border:1px solid white;
 }
 
+#today{
+  background-color:white;
+  color:black;
+}
+
 .main__h1--detail{
-  margin-up:
+  word-wrap:break-word !important;
 }
 
 .main--detail{
   margin-top:55px;
+}
+
+
+.detail-btns{
+  width: 140px;
+  height: 36px;
+  border-radius: 7px;
+  background-color: white;
+  margin-top: 5px;
+  font-weight: 800;
+  font-size: 20px;
 }

@@ -1,14 +1,15 @@
 import { getBookByIsbn } from '../api/getBookByKakao.js';
 import { authCheck } from '../firebase/auth/authenticationCheck.js';
 import { changeHeader } from '../components/header_maker.js';
-import { getPostData } from '../firebase/DB/post_data.js';
+import { getPostDataByUser } from '../firebase/DB/post_data.js';
 
 const main__article = document.querySelector(".main__article");
-const SCOPE = 'public';
+const SCOPE = 'private';
 
-const getBookList = async function() {
 
-  const publicBookArrayFunc = await getPostData("public");
+const getBookList = async function(email) {
+
+  const publicBookArrayFunc = await getPostDataByUser("private", email);
   let publicBookArray = [];
   let publicBookKeyArray = [];
   //이런식으로 받아야지 정렬됨
@@ -87,7 +88,6 @@ const main__article__section_clickEvent = function(event) {
 };
 
 const pageMaker = async function() {
-  await getBookList();
 
   const user = await authCheck;
   changeHeader(user);
@@ -95,6 +95,7 @@ const pageMaker = async function() {
   if (user === null) {
 
   } else {
+    await getBookList(user.email);
 
     //console.log(user);
   }

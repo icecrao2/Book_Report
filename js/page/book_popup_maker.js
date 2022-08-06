@@ -23,7 +23,6 @@ const make_search_input = function() {
 
 const click_li_event = function(evt) {
 
-  console.dir(evt);
   let id = evt.currentTarget.id;
   let isbn_array = id.split(' ');
   let isbn;
@@ -31,16 +30,16 @@ const click_li_event = function(evt) {
     isbn = isbn_array[1];
   else
     isbn = isbn_array[0];
-
   opener.document.querySelector("#isbn").value = isbn;
+  opener.document.querySelector("#book_name").value = evt.currentTarget.children[1].innerText;
 
-  window.close();
+   window.close();
 }
 
 const make_book_list = async function() {
-  const SEARCH_NUMBER = 10;
   const book_name = search.value;
   const book_list = await getBookByTitle(book_name);
+  const SEARCH_NUMBER = book_list.length;
   console.log(book_list);
 
   if (!Array.isArray(book_list) || book_list.length == 0) {

@@ -21,7 +21,7 @@
 .main__article__section{
   border-radius:10px;
   min-height:300px;
-  width:350px;
+  width:405px;
   margin-right:11px;
   margin-left:11px;
   margin-bottom:13px;
@@ -45,4 +45,10 @@
   margin-bottom:3px;
   margin-top:3px;
   width:322px;
+}
+
+@media screen and (min-width:1076px){
+  .main__article__section{
+    width:478px;
+  }
 }
