@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
     content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0">
-  <title>수정하기 - 독후감</title>
+  <title>독후감</title>
   <link href="./img/open-book.png" rel="shortcut icon" type="image/x-icon">
   <link href="./css/style.css" rel="stylesheet" type="text/css" />
 </head>
@@ -26,40 +26,23 @@
     </div>
   </header>
 
-  <main class="main main--write">
-    <h1 class="main__h1">글 수정하기</h1>
-    <form action="" class="main__write-form">
-      <input type="text" required maxlength="25" id="title" placeholder="제목" />
-      <div class="main__div">
-        <div>
-          <input type="text" required id="book_name" placeholder="책이름" />
-          <i class="fa-solid fa-magnifying-glass book-searching-btn"></i>
-          <input type="text" required id="isbn" readonly placeholder="isbn" />
-        </div>
-        <div>
-          <input type="text" id="writer" placeholder="글쓴이" readonly />
-          <input type="date" id="today" readonly />
-          <select name="public_scope" id="scope">
-            <option value="public">public</option>
-            <option value="private">private</option>
-          </select>
-        </div>
-      </div>
-      <div>
-        <textarea required rows="40" cols="150"></textarea>
-      </div>
-      <button type="submit" id="writng_submit">저장하기</button>
+  <main class="main">
+    <form class="main__serach-form">
+      <input class="main__screen-form__input" type="text" placeholder="Enter The Title" />
     </form>
+    <article class="main__article">
+
+    </article>
   </main>
 
 
 
-
   <script defer type="module" src="./js/firebase/firebase_setting.js"></script>
-  <script defer type="module" src="./js/page/update-page_maker.js"></script>
+  <script defer type="module" src="./js/firebase/DB/post_data.js"></script>
+  <script type="module" src="./js/page/public-page_maker.js"></script>
+
 
   <script src="https://kit.fontawesome.com/f145f48ad9.js" crossorigin="anonymous"></script>
-  <script src="./js/script.js"></script>
 
 </body>
 

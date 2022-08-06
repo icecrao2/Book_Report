@@ -4,37 +4,37 @@ import { changeHeader } from '../components/header_maker.js';
 import { getPostDataByUser } from '../firebase/DB/post_data.js';
 
 const main__article = document.querySelector(".main__article");
-const SCOPE = 'private';
+const SCOPE = 'public';
 
 
 const getBookList = async function(email) {
 
-  const privatePostArrayFunc = await getPostDataByUser(SCOPE, email);
-  let privateBookArray = [];
-  let privateBookKeyArray = [];
+  const publicPostArrayFunc = await getPostDataByUser(SCOPE, email);
+  let publicBookArray = [];
+  let publicBookKeyArray = [];
   //이런식으로 받아야지 정렬됨
-  privatePostArrayFunc.forEach(function(child) {
-    privateBookArray.push(child.val());
-    privateBookKeyArray.push(child.key);
+  publicPostArrayFunc.forEach(function(child) {
+    publicBookArray.push(child.val());
+    publicBookKeyArray.push(child.key);
   });
 
-  privateBookArray.reverse();
-  privateBookKeyArray.reverse();
+  publicBookArray.reverse();
+  publicBookKeyArray.reverse();
 
   const page = 1;
   let startArrayIndex = (page - 1) * 10;
   let endArrayIndex = (page) * 10;
 
-  if (privateBookArray.length < endArrayIndex) {
-    endArrayIndex = privateBookArray.length;
+  if (publicBookArray.length < endArrayIndex) {
+    endArrayIndex = publicBookArray.length;
   }
 
-  console.log(privateBookArray);
+  console.log(publicBookArray);
 
   for (let i = startArrayIndex; i < endArrayIndex; i++) {
 
 
-    const data = await getBookByIsbn(privateBookArray[i].ISBN);
+    const data = await getBookByIsbn(publicBookArray[i].ISBN);
 
     const main__article__section__img = document.createElement("img");
     main__article__section__img.classList.add("main__article__section__img");
@@ -47,17 +47,17 @@ const getBookList = async function(email) {
     const main__article__section__div__p = document.createElement("p");
 
     //DB에서 불러와야함
-    if (privateBookArray[i].title.length >= 18)
-      main__article__section__div__h1.innerText = privateBookArray[i].title.substring(0, 19);
+    if (publicBookArray[i].title.length >= 18)
+      main__article__section__div__h1.innerText = publicBookArray[i].title.substring(0, 19);
     else
-      main__article__section__div__h1.innerText = privateBookArray[i].title;
+      main__article__section__div__h1.innerText = publicBookArray[i].title;
 
-    main__article__section.id = privateBookKeyArray[i];
+    main__article__section.id = publicBookKeyArray[i];
 
-    if (privateBookArray[i].text.length >= 120)
-      main__article__section__div__p.innerText = privateBookArray[i].text.substring(0, 121);
+    if (publicBookArray[i].text.length >= 120)
+      main__article__section__div__p.innerText = publicBookArray[i].text.substring(0, 121);
     else
-      main__article__section__div__p.innerText = privateBookArray[i].text;
+      main__article__section__div__p.innerText = publicBookArray[i].text;
 
 
 
