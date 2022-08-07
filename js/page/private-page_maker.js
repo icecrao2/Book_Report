@@ -2,12 +2,15 @@ import { getBookByIsbn } from '../api/getBookByKakao.js';
 import { authCheck } from '../firebase/auth/authenticationCheck.js';
 import { changeHeader } from '../components/header_maker.js';
 import { getPostDataByUser } from '../firebase/DB/post_data.js';
+import { search } from './searching.js';
+import { getParameter } from './util.js';
 
 const main__article = document.querySelector(".main__article");
 const SCOPE = 'private';
+const main__serach_form = document.querySelector(".main__serach-form");
 
-const makeBookList = async function(publicBookArray, publicBookKeyArray) {
-  for (let i = 0; i < publicBookArray.length; i++) {
+const makeBookList = async function(privateBookArray, privateBookKeyArray) {
+  for (let i = 0; i < privateBookArray.length; i++) {
 
 
     const data = await getBookByIsbn(privateBookArray[i].ISBN);
@@ -56,7 +59,7 @@ const makeBookList = async function(publicBookArray, publicBookKeyArray) {
   }
 }
 
-const getBookList = async function(email) {
+const getBookList = async function(email, searching) {
 
   const privatePostArrayFunc = await getPostDataByUser(SCOPE, email);
   let privateBookArray = [];
@@ -71,7 +74,11 @@ const getBookList = async function(email) {
   privateBookKeyArray.reverse();
 
 
-  makeBookList(publicBookArray, publicBookKeyArray);
+  const val = search(privateBookArray, privateBookKeyArray, searching);
+  const bookArray = val[0];
+  const keyArray = val[1];
+  makeBookList(bookArray, keyArray);
+  //makeBookList(privateBookArray, privateBookKeyArray);
 
 };
 
@@ -82,6 +89,14 @@ const main__article__section_clickEvent = function(event) {
 
 };
 
+
+const searchFormEvt = function(evt) {
+  evt.preventDefault();
+  const text = evt.target.children[0].value;
+  console.log(text);
+  window.location.href = `private-main.html?search=${encodeURI(text, 'utf-8')}`;
+}
+
 const pageMaker = async function() {
 
   const user = await authCheck;
@@ -90,8 +105,17 @@ const pageMaker = async function() {
   if (user === null) {
 
   } else {
-    await getBookList(user.email);
 
+    const param = getParameter();
+    const searchText = decodeURI(param[1], 'utf-8');
+
+    if (searchText === undefined || searchText == "undefined"
+      || searchText === '' || searchText === null)
+      await getBookList(user.email, '');
+    else
+      await getBookList(user.email, searchText);
+
+    main__serach_form.addEventListener("submit", searchFormEvt);
     //console.log(user);
   }
 

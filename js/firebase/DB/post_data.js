@@ -61,7 +61,7 @@ export const getPostDataByUser = (scope, user) =>
   });
 
 //get userData by snapshot
-export const getPostData = (scope) =>
+export const getPostData = (scope, title) =>
   new Promise(async (resolve, reject) => {
 
     const db = getDatabase();
@@ -73,14 +73,13 @@ export const getPostData = (scope) =>
 
       if (snapshot.exists()) {
         snapshot.forEach(function(child) {
-          console.log(child.val());
         });
 
 
         //  console.log(snapshot.val());
         resolve(snapshot);
       } else {
-        console.log("No data available");
+        console.log("No data available"); s
       }
     }).catch((error) => {
 

@@ -2,9 +2,13 @@ import { getBookByIsbn } from '../api/getBookByKakao.js';
 import { authCheck } from '../firebase/auth/authenticationCheck.js';
 import { changeHeader } from '../components/header_maker.js';
 import { getPostData } from '../firebase/DB/post_data.js';
+import { search } from './searching.js';
+import { getParameter } from './util.js';
 
 const main__article = document.querySelector(".main__article");
 const SCOPE = 'public';
+const main__serach_form = document.querySelector(".main__serach-form");
+
 
 const makeBookList = async function(publicBookArray, publicBookKeyArray) {
   for (let i = 0; i < publicBookArray.length; i++) {
@@ -54,10 +58,10 @@ const makeBookList = async function(publicBookArray, publicBookKeyArray) {
 
 
   }
-
+  console.log(publicBookArray);
 }
 
-const getBookList = async function() {
+const getBookList = async function(searching) {
 
   const publicBookArrayFunc = await getPostData("public");
   let publicBookArray = [];
@@ -70,18 +74,44 @@ const getBookList = async function() {
   publicBookArray.reverse();
   publicBookKeyArray.reverse();
 
-  makeBookList(publicBookArray, publicBookKeyArray);
+  //수정해야됨
+  const val = search(publicBookArray, publicBookKeyArray, searching);
+  const bookArray = val[0];
+  const keyArray = val[1];
+  makeBookList(bookArray, keyArray);
+  // makeBookList(publicBookArray, publicBookKeyArray);
 };
 
 const main__article__section_clickEvent = function(event) {
-  
+
   const id = event.currentTarget.id + '=' + SCOPE;
   window.location.href = `detail.html?id=${encodeURI(id, 'utf-8')}`;
 
 };
 
+const searchFormEvt = function(evt) {
+  evt.preventDefault();
+  const text = evt.target.children[0].value;
+  console.log(text);
+  window.location.href = `index.html?search=${encodeURI(text, 'utf-8')}`;
+}
+
 const pageMaker = async function() {
-  await getBookList();
+
+
+  const param = getParameter();
+  const searchText = decodeURI(param[1], 'utf-8');
+
+  
+  if (searchText === undefined || searchText=="undefined"
+      || searchText === '' || searchText === null)
+    await getBookList('');
+  
+  else
+    await getBookList(searchText);
+
+  main__serach_form.addEventListener("submit", searchFormEvt);
+
 
   const user = await authCheck;
   changeHeader(user);
