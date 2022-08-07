@@ -1,8 +1,8 @@
 import { authCheck } from '../firebase/auth/authenticationCheck.js';
 import { changeHeader } from '../components/header_maker.js';
 import { getPostDataByKey, updatePostData } from '../firebase/DB/post_data.js';
-import { getBookByTitle, getBookByIsbn } from '../api/getBookByKakao.js';
-import { getParameter } from './util.js';
+import { getBookByIsbn } from '../api/getBookByKakao.js';
+import { getParameter, getTodayDate } from './util.js';
 
 const title = document.querySelector("#title");
 const book_name = document.querySelector("#book_name");
@@ -15,26 +15,24 @@ const isbn = document.querySelector("#isbn");
 const form = document.querySelector("form");
 
 let email;
+const MAIN_PAGE = "index.html";
+
 
 
 const inputDefaultValue = async function(user) {
 
   const value = getParameter();
   const postData = await getPostDataByKey(value[2], value[1]);
-  console.log(postData);
   title.value = postData.title;
   isbn.value = postData.ISBN;
+  textArea.value = postData.text;
+
   const book = await getBookByIsbn(postData.ISBN);
   book_name.value = book.title;
-  textArea.value = postData.text;
 
   writer.value = user.displayName;
 
-  var date = new Date();
-  var year = date.getFullYear();
-  var month = ("0" + (1 + date.getMonth())).slice(-2);
-  var day = ("0" + date.getDate()).slice(-2);
-  var today = year + "-" + month + "-" + day;
+  const today = getTodayDate();
   dateForm.value = today;
 
 }
@@ -49,11 +47,9 @@ const submitBtnEvent = async function(evt) {
   const value = getParameter();
   const key = value[1];
 
-  await updatePostData(writer.value, title.value, ISBN, scope.value, dateForm.value, textArea.value, email, key).then(() => {
-    window.location.href = "index.html";
-  });
+  await updatePostData(writer.value, title.value, ISBN, scope.value, dateForm.value, textArea.value, email, key);
 
-  window.location.href = "index.html";
+  window.location.href = MAIN_PAGE;
 
 }
 
@@ -67,17 +63,15 @@ const getBookISBN = async function() {
   }
 }
 
+const newLine = function() {
+  textArea.value = textArea.value + `\n`;
+}
+
 const preventEnterKey = function() {
   form.addEventListener("keydown", (event) => {
     if (event.keyCode === 13) {
-
-      var key = window.event.keyCode;
-      if (key === 13) {
-        textArea.value = textArea.value + `\n`;
-        console.log(textArea.value);
-      }
+      newLine();
       event.preventDefault();
-
     };
   });
 };

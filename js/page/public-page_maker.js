@@ -6,32 +6,11 @@ import { getPostDataByUser } from '../firebase/DB/post_data.js';
 const main__article = document.querySelector(".main__article");
 const SCOPE = 'public';
 
+const makeBookList = async function(publicBookArray, publicBookKeyArray) {
 
-const getBookList = async function(email) {
 
-  const publicPostArrayFunc = await getPostDataByUser(SCOPE, email);
-  let publicBookArray = [];
-  let publicBookKeyArray = [];
-  //이런식으로 받아야지 정렬됨
-  publicPostArrayFunc.forEach(function(child) {
-    publicBookArray.push(child.val());
-    publicBookKeyArray.push(child.key);
-  });
 
-  publicBookArray.reverse();
-  publicBookKeyArray.reverse();
-
-  const page = 1;
-  let startArrayIndex = (page - 1) * 10;
-  let endArrayIndex = (page) * 10;
-
-  if (publicBookArray.length < endArrayIndex) {
-    endArrayIndex = publicBookArray.length;
-  }
-
-  console.log(publicBookArray);
-
-  for (let i = startArrayIndex; i < endArrayIndex; i++) {
+  for (let i = 0; i < publicBookArray.length; i++) {
 
 
     const data = await getBookByIsbn(publicBookArray[i].ISBN);
@@ -78,7 +57,23 @@ const getBookList = async function(email) {
 
 
   }
+}
 
+const getBookList = async function(email) {
+
+  const publicPostArrayFunc = await getPostDataByUser(SCOPE, email);
+  let publicBookArray = [];
+  let publicBookKeyArray = [];
+  //이런식으로 받아야지 정렬됨
+  publicPostArrayFunc.forEach(function(child) {
+    publicBookArray.push(child.val());
+    publicBookKeyArray.push(child.key);
+  });
+
+  publicBookArray.reverse();
+  publicBookKeyArray.reverse();
+
+  makeBookList(publicBookArray, publicBookKeyArray);
 };
 
 const main__article__section_clickEvent = function(event) {
@@ -97,7 +92,6 @@ const pageMaker = async function() {
 
   } else {
     await getBookList(user.email);
-
     //console.log(user);
   }
 

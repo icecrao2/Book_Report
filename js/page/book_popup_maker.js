@@ -14,8 +14,6 @@ function removeAllchild(div) {
   }
 };
 
-
-
 const make_search_input = function() {
   const book_name = getParameter();
   search.value = decodeURI(book_name[1]);
@@ -33,7 +31,7 @@ const click_li_event = function(evt) {
   opener.document.querySelector("#isbn").value = isbn;
   opener.document.querySelector("#book_name").value = evt.currentTarget.children[1].innerText;
 
-   window.close();
+  window.close();
 }
 
 const make_book_list = async function() {

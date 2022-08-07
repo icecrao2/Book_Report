@@ -21,6 +21,7 @@
 
 @media screen and (max-width:1076px){
   .header__href{
-    font-size:13px;
+    font-size:12px;
+    margin-right:4px;
   }
 }

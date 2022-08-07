@@ -1,9 +1,8 @@
 import { authCheck } from '../firebase/auth/authenticationCheck.js';
 import { changeHeader } from '../components/header_maker.js';
 import { writePostData } from '../firebase/DB/post_data.js';
-import { getBookByTitle } from '../api/getBookByKakao.js';
+import { getTodayDate } from './util.js';
 
-const writng_submit = document.querySelector("#writng_submit");
 
 const title = document.querySelector("#title");
 const book_name = document.querySelector("#book_name");
@@ -17,17 +16,9 @@ const form = document.querySelector("form");
 
 let email;
 
-
 const inputDefaultValue = function(user) {
   writer.value = user.displayName;
-
-  var date = new Date();
-  var year = date.getFullYear();
-  var month = ("0" + (1 + date.getMonth())).slice(-2);
-  var day = ("0" + date.getDate()).slice(-2);
-
-  var today = year + "-" + month + "-" + day;
-
+  const today = getTodayDate();
   dateForm.value = today;
 }
 
@@ -36,8 +27,6 @@ const submitBtnEvent = async function(evt) {
   evt.preventDefault();
 
   const ISBN = isbn.value;
-  console.log(scope.value);
-
 
   await writePostData(writer.value, title.value, ISBN, scope.value, dateForm.value, textArea.value, email).then(() => {
     window.location.href = "index.html";
@@ -46,12 +35,8 @@ const submitBtnEvent = async function(evt) {
 }
 
 const getBookISBN = async function() {
-  if (book_name.value === null || book_name.value === undefined || book_name.value === '') {
-
-  }
+  if (book_name.value === null || book_name.value === undefined || book_name.value === '') { }
   else {
-    const bookArray = await getBookByTitle(book_name.value);
-
     const popup = window.open(`book_popup.html?name=${encodeURI(book_name.value, 'utf-8')}`, "search-book", "width = 1000, height = 800, top = 100, left = 200, location = no");
   }
 }

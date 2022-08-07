@@ -6,32 +6,8 @@ import { getPostDataByUser } from '../firebase/DB/post_data.js';
 const main__article = document.querySelector(".main__article");
 const SCOPE = 'private';
 
-
-const getBookList = async function(email) {
-
-  const privatePostArrayFunc = await getPostDataByUser(SCOPE, email);
-  let privateBookArray = [];
-  let privateBookKeyArray = [];
-  //이런식으로 받아야지 정렬됨
-  privatePostArrayFunc.forEach(function(child) {
-    privateBookArray.push(child.val());
-    privateBookKeyArray.push(child.key);
-  });
-
-  privateBookArray.reverse();
-  privateBookKeyArray.reverse();
-
-  const page = 1;
-  let startArrayIndex = (page - 1) * 10;
-  let endArrayIndex = (page) * 10;
-
-  if (privateBookArray.length < endArrayIndex) {
-    endArrayIndex = privateBookArray.length;
-  }
-
-  console.log(privateBookArray);
-
-  for (let i = startArrayIndex; i < endArrayIndex; i++) {
+const makeBookList = async function(publicBookArray, publicBookKeyArray) {
+  for (let i = 0; i < publicBookArray.length; i++) {
 
 
     const data = await getBookByIsbn(privateBookArray[i].ISBN);
@@ -78,11 +54,29 @@ const getBookList = async function(email) {
 
 
   }
+}
+
+const getBookList = async function(email) {
+
+  const privatePostArrayFunc = await getPostDataByUser(SCOPE, email);
+  let privateBookArray = [];
+  let privateBookKeyArray = [];
+  //이런식으로 받아야지 정렬됨
+  privatePostArrayFunc.forEach(function(child) {
+    privateBookArray.push(child.val());
+    privateBookKeyArray.push(child.key);
+  });
+
+  privateBookArray.reverse();
+  privateBookKeyArray.reverse();
+
+
+  makeBookList(publicBookArray, publicBookKeyArray);
 
 };
 
 const main__article__section_clickEvent = function(event) {
-  console.log(event.currentTarget);
+
   const id = event.currentTarget.id + '=' + SCOPE;
   window.location.href = `detail.html?id=${encodeURI(id, 'utf-8')}`;
 
