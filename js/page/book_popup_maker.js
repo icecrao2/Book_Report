@@ -69,12 +69,6 @@ const book_searching_event = async function() {
   make_book_list(search.value);
 }
 
-const enter_searching_event = function(e) {
-  console.log(e.key);
-   if (e.key === 'Enter'){
-    book_searching_event();
-   }
-}
 
 const popup_maker = async function() {
   make_search_input();
@@ -87,7 +81,6 @@ const popup_maker = async function() {
   }
 
   button.addEventListener("click", book_searching_event);
-  search.addEventListener("keypress", enter_searching_event);
 
 };
 popup_maker();
