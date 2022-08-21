@@ -70,6 +70,7 @@ const book_searching_event = async function() {
 }
 
 const enter_searching_event = function(e) {
+  console.log(e.key);
    if (e.key === 'Enter'){
     book_searching_event();
    }
